@@ -4,5 +4,15 @@
     "description": "Movie API with Graphql",
     "main": "index.js",
     "repository": "https://github.com/JaeJun1130/movieql.git",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "@babel/cli": "^7.12.10",
+        "@babel/core": "^7.12.10",
+        "@babel/node": "^7.12.10",
+        "@babel/preset-env": "^7.12.10",
+        "graphql-yoga": "^1.18.3"
+    },
+    "scripts": {
+        "start": "nodemon --exec babel-node index.js"
+    }
 }
