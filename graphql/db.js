@@ -1,50 +1,54 @@
-export const movies = [
-    {
-        id: 0,
-        name: "Star Wars - The new one",
-        score: 9,
-    },
-    {
-        id: 1,
-        name: "Avengers - Iron Man",
-        score: 99,
-    },
-    {
-        id: 2,
-        name: "The Godfather I",
-        score: 3,
-    },
-    {
-        id: 3,
-        name: "Logan",
-        score: 2,
-    },
-];
+import axios from "axios";
 
-export const getMovies = () => movies;
+// const BASE_URL = "https://yts.mx/api/v2/";
+// const LIST_MOVIES_URL = `${BASE_URL}list_movies.json`;
+// const MOVIE_DETAILS_URL = `${BASE_URL}movie_details.json`;
+// const MOVIE_SUGGESTIONS_URL = `${BASE_URL}movie_suggestion.json`;
 
-export const getById = (id) => {
-    const filteredMovies = movies.filter((movie) => id === movie.id);
-    return filteredMovies[0];
+export const getMovies = async (limit, rating) => {
+    const {
+        data: {
+            data: { movies },
+        },
+    } = await axios.get("https://yts.mx/api/v2/list_movies.json", {
+        params: {
+            limit,
+            minimum_rating: rating,
+        },
+    });
+
+    return movies;
 };
 
-export const addMovie = (name, score) => {
-    const newMovie = {
-        id: `${movies.length + 1}`,
-        name,
-        score,
-    };
-    movies.push(newMovie);
-    return newMovie;
+export const getMovie = async (id) => {
+    const {
+        data: {
+            data: { movie },
+        },
+    } = await axios.get("https://yts.mx/api/v2/movie_details.json", {
+        params: {
+            movie_id: id,
+        },
+    });
+    return movie;
 };
 
-export const deleteMovie = (id) => {
-    const cleanedMovies = movies.filter((movie) => movie.id != id);
-    console.log(cleanedMovies);
-    if (movies.length > cleanedMovies.length) {
-        movies = cleanedMovies;
-        return true;
-    } else {
-        return false;
-    }
+export const getSuggestions = async (id) => {
+    const {
+        data: {
+            data: { movies },
+        },
+    } = await axios.get("https://yts.mx/api/v2/movie_suggestions.json", {
+        params: {
+            movie_id: id,
+        },
+    });
+    console.log(movies);
+    return movies;
 };
+
+// const getMovies = (limit, rating) => {
+//     fetch(`${API_URL}`)
+//         .then((res) => res.json())
+//         .then((json) => json.data.movies);
+// };
